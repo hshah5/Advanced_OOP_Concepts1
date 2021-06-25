@@ -1,3 +1,6 @@
+import java.io.*;
+import java.util.*;
+
 public class Database {
     private String[] colNames;
     private int numRows;
@@ -28,16 +31,31 @@ public class Database {
     }
 
     public Database(String contents) {
-/* TODO 
-This constructor should take the contents of a CSV file and initialize the memember variables of the Database class.
-*/
-    }
+        String[] lines = contents.split("\n");
+        this.colNames = lines[0].split(",");
+        this.data = new String[lines.length - 1][this.colNames.length];
 
-    public String getValue(String columnName,int row){
-/* TODO */
-This method should return the data contained on row "row" and the column matching  @columname
+        for (int i = 1; i < lines.length; i++) {
+            String[] currentLine= lines[i].split(",");
+            for(int j = 0; j < colNames.length; j++) {
+                this.data[i-1][j] = currentLine[j];
+            }
+        }
+
+        this.numRows = lines.length - 1;
+    }
+/* TODO 
+This constructor should take
+ the contents of a CSV file and initialize the
+ memember variables of the Database class.
+*/
+
+    public String getValue(String columnName, int row) {
+
+        int col = 0;
+        for (col = 0; col < this.colNames.length && !(this.colNames[col].equals(columnName)); col++) ;
+        return this.data[row][col];
+
     }
 
 }
-
-
